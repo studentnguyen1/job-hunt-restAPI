@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,11 +48,6 @@ public class UserController {
     public ResponseEntity<User> updateUser(@RequestBody User userInput) {
         User userCurrent = this.userService.handleUpdateUser(userInput);
         return ResponseEntity.status(HttpStatus.OK).body(userCurrent);
-    }
-
-    @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<String> handleBlogAlreadyExistsException(IdInvalidException IdException) {
-        return ResponseEntity.badRequest().body("Id Error");
     }
 
     @DeleteMapping("/users/{id}")
