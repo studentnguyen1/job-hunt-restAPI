@@ -48,7 +48,7 @@ public class CompanyController {
 
         Pageable pageable = PageRequest.of(current - 1, pageSize);
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.companyService.handleGetAllCompanies(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(this.companyService.handleGetCompany(pageable));
     }
 
     @PutMapping("/companies")
