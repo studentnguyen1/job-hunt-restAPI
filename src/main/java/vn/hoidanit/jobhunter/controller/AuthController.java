@@ -54,6 +54,11 @@ public class AuthController {
             res.setUser(userLogin);
         }
         res.setAccessToken(access_token);
+        // create refresh token
+        String refresh_token = this.securityUtil.createRefreshToken(loginDTO.getUsername(), res);
+
+        // update user
+        this.userService.updateUserToken(refresh_token, loginDTO.getUsername());
 
         return ResponseEntity.ok().body(res);
 
