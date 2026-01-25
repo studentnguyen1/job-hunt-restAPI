@@ -27,9 +27,8 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User handleCreateUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return this.userRepository.save(user);
+    public User handleCreateUser(User postManUser) {
+        return this.userRepository.save(postManUser);
 
     }
 
@@ -128,9 +127,9 @@ public class UserService {
         return res;
     }
 
-    public void updateUserToken(String token, String email){
+    public void updateUserToken(String token, String email) {
         User currentUser = this.handleGetUserByUsername(email);
-        if(currentUser != null){
+        if (currentUser != null) {
             currentUser.setRefreshToken(token);
             this.userRepository.save(currentUser);
         }
