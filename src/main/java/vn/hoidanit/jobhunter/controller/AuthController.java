@@ -43,7 +43,7 @@ public class AuthController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // create a token
-        String access_token = this.securityUtil.createToken(authentication);
+        String access_token = this.securityUtil.createAccessToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         RestLoginDTO res = new RestLoginDTO();
@@ -51,9 +51,9 @@ public class AuthController {
         if (currentUser != null) {
             RestLoginDTO.UserLogin userLogin = new RestLoginDTO.UserLogin(currentUser.getId(), currentUser.getEmail(),
                     currentUser.getName());
-            res.setAccessToken(access_token);
             res.setUser(userLogin);
         }
+        res.setAccessToken(access_token);
 
         return ResponseEntity.ok().body(res);
 
