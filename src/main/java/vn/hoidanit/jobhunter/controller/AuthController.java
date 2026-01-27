@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<RestLoginDTO> login(@Valid @RequestBody LoginDTO loginDTO) {
         // Nạp input gồm username/password vào Security
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -49,7 +50,6 @@ public class AuthController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // create a token
-        String access_token = this.securityUtil.createAccessToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         RestLoginDTO res = new RestLoginDTO();
@@ -59,6 +59,7 @@ public class AuthController {
                     currentUser.getName());
             res.setUser(userLogin);
         }
+        String access_token = this.securityUtil.createAccessToken(authentication, res.getUser());
         res.setAccessToken(access_token);
         // create refresh token
         String refresh_token = this.securityUtil.createRefreshToken(loginDTO.getUsername(), res);
@@ -75,6 +76,22 @@ public class AuthController {
                 .build();
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookies.toString()).body(res);
+
+    }
+
+    @GetMapping("/auth/account")
+    public ResponseEntity<RestLoginDTO.UserLogin> getAccount() {
+        String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
+
+        RestLoginDTO.UserLogin userLogin = new RestLoginDTO.UserLogin();
+
+        User currentUser = this.userService.handleGetUserByUsername(email);
+        if (currentUser != null) {
+            userLogin.setId(currentUser.getId());
+            userLogin.setEmail(currentUser.getEmail());
+            userLogin.setUsername(currentUser.getName());
+        }
+        return ResponseEntity.ok().body(userLogin);
 
     }
 }
