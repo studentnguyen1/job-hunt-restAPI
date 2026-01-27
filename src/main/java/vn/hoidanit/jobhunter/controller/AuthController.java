@@ -49,9 +49,10 @@ public class AuthController {
         // xác thực người dùng => cần viết hàm loadUserByUsername
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        // create a token
+        // set thong tin nguoi dung vao Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        // create a token
         RestLoginDTO res = new RestLoginDTO();
         User currentUser = this.userService.handleGetUserByUsername(loginDTO.getUsername());
         if (currentUser != null) {
