@@ -103,8 +103,11 @@ public class AuthController {
     @GetMapping("/auth/refresh")
     @ApiMessage("Get user By refresh token")
     public ResponseEntity<RestLoginDTO> getFreshToken(
-            @CookieValue(name = "refresh_token") String refresh_token) throws IdInvalidException {
-
+            @CookieValue(name = "refresh_token", defaultValue = "null") String refresh_token)
+            throws IdInvalidException {
+        if (refresh_token.equals("null")) {
+            throw new IdInvalidException("Bạn không có refresh token ở cookie");
+        }
         // check valid
         Jwt decodedToken = this.securityUtil.checkValidRefreshToken(refresh_token);
         String email = decodedToken.getSubject();
@@ -145,4 +148,24 @@ public class AuthController {
 
     }
 
+    @PostMapping("/auth/logout")
+    @ApiMessage("User logout")
+    public ResponseEntity<Void> logOut()
+            throws IdInvalidException {
+        String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
+        if (email == null) {
+            throw new IdInvalidException("Accees token không hợp lệ");
+        }
+        this.userService.updateUserToken(null, email);
+
+        ResponseCookie deleteSpringCookie = ResponseCookie.from("refresh_token", null)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, deleteSpringCookie.toString()).body(null);
+
+    }
 }
