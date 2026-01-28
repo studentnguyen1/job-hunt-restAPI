@@ -85,18 +85,18 @@ public class AuthController {
     }
 
     @GetMapping("/auth/account")
-    public ResponseEntity<RestLoginDTO.UserLogin> getAccount() {
+    public ResponseEntity<RestLoginDTO.UserGetAccount> getAccount() {
         String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
 
-        RestLoginDTO.UserLogin userLogin = new RestLoginDTO.UserLogin();
+        RestLoginDTO.UserGetAccount userGetAccount = new RestLoginDTO.UserGetAccount();
 
         User currentUser = this.userService.handleGetUserByUsername(email);
         if (currentUser != null) {
-            userLogin.setId(currentUser.getId());
-            userLogin.setEmail(currentUser.getEmail());
-            userLogin.setUsername(currentUser.getName());
+            RestLoginDTO.UserLogin userLogin = new RestLoginDTO.UserLogin(currentUser.getId(), currentUser.getEmail(),
+                    currentUser.getName());
+            userGetAccount.setUser(userLogin);
         }
-        return ResponseEntity.ok().body(userLogin);
+        return ResponseEntity.ok().body(userGetAccount);
 
     }
 
@@ -134,7 +134,7 @@ public class AuthController {
         String new_refresh_token = this.securityUtil.createRefreshToken(email, res);
 
         // update user
-        this.userService.updateUserToken(refresh_token, email);
+        this.userService.updateUserToken(new_refresh_token, email);
 
         // response cookie
         ResponseCookie resCookies = ResponseCookie.from("refresh_token", new_refresh_token)

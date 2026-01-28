@@ -111,7 +111,7 @@ public class UserService {
         res.setGender(user.getGender());
         res.setAddress(user.getAddress());
         res.setCreatedAt(user.getCreatedAt());
-        res.setUpdateAt(user.getUpdateAt());
+        res.setUpdatedAt(user.getUpdatedAt());
 
         return res;
     }
@@ -121,7 +121,7 @@ public class UserService {
         res.setId(user.getId());
         res.setName(user.getName());
         res.setAge(user.getAge());
-        res.setUpdateAt(user.getUpdateAt());
+        res.setUpdatedAt(user.getUpdatedAt());
         res.setGender(user.getGender());
         res.setAddress(user.getAddress());
         return res;

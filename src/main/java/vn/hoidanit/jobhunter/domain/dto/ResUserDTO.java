@@ -2,8 +2,6 @@ package vn.hoidanit.jobhunter.domain.dto;
 
 import java.time.Instant;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +24,9 @@ public class ResUserDTO {
 
     private String address;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
 
-    private Instant updateAt;
+    private Instant updatedAt;
 
 }

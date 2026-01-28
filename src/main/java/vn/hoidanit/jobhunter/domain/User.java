@@ -2,8 +2,6 @@ package vn.hoidanit.jobhunter.domain;
 
 import java.time.Instant;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,12 +44,12 @@ public class User {
     @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
 
-    private Instant updateAt;
+    private Instant updatedAt;
     private String createdBy;
-    private String updateBy;
+    private String updatedBy;
 
     @PrePersist
     public void handleBeforeCreate() {
@@ -63,10 +61,10 @@ public class User {
 
     @PreUpdate
     public void handleAfterUpdate() {
-        this.updateBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
-        this.updateAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
 }

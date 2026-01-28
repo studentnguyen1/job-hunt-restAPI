@@ -20,5 +20,5 @@ public class RestUpdateUserDTO {
 
     private String address;
 
-    private Instant updateAt;
+    private Instant updatedAt;
 }
