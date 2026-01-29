@@ -14,7 +14,6 @@ public class RestLoginDTO {
     private String accessToken;
 
     private UserLogin user;
-    private UserGetAccount userGetAccount;
 
     @Getter
     @Setter
