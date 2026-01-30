@@ -29,4 +29,15 @@ public class ResUserDTO {
 
     private Instant updatedAt;
 
+    private CompanyUser company;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CompanyUser {
+        private long id;
+        private String name;
+    }
+
 }

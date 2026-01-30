@@ -21,6 +21,7 @@ import vn.hoidanit.jobhunter.domain.response.ResCreateUserDTO;
 import vn.hoidanit.jobhunter.domain.response.ResUserDTO;
 import vn.hoidanit.jobhunter.domain.response.RestUpdateUserDTO;
 import vn.hoidanit.jobhunter.domain.response.ResultPaginationDTO;
+import vn.hoidanit.jobhunter.service.CompanyService;
 import vn.hoidanit.jobhunter.service.UserService;
 import vn.hoidanit.jobhunter.util.annotation.ApiMessage;
 import vn.hoidanit.jobhunter.util.error.IdInvalidException;
@@ -30,10 +31,12 @@ import vn.hoidanit.jobhunter.util.error.IdInvalidException;
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final CompanyService companyService;
 
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, CompanyService companyService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.companyService = companyService;
     }
 
     @GetMapping("/users/{user-id}")
@@ -42,7 +45,6 @@ public class UserController {
     public ResponseEntity<ResUserDTO> getUserById(@PathVariable("user-id") long id) throws IdInvalidException {
         User fetchUser = this.userService.handleGetUserById(id);
         if (fetchUser == null) {
-
             throw new IdInvalidException("User với Id =  " + id + " không tồn tại");
         }
 
@@ -75,10 +77,9 @@ public class UserController {
     public ResponseEntity<RestUpdateUserDTO> updateUser(@RequestBody User userInput) throws IdInvalidException {
         User ericUser = this.userService.handleUpdateUser(userInput);
         if (ericUser == null) {
-
-            throw new IdInvalidException("Id" + userInput.getEmail() + "đã tồn tại, vui lòng sử dụng id khác");
-
+            throw new IdInvalidException("User: " + userInput.getEmail() + " không tồn tại, nhập lại id");
         }
+
         RestUpdateUserDTO userCurrent = this.userService.convertToResUpdateUserDTO(ericUser);
 
         return ResponseEntity.status(HttpStatus.OK).body(userCurrent);
