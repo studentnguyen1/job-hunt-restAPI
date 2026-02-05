@@ -100,6 +100,10 @@ public class UserService {
         return this.userRepository.existsByEmail(email);
     }
 
+    public boolean isIdExist(long id) {
+        return this.userRepository.existsById(id);
+    }
+
     public ResCreateUserDTO convertToResCreateDTO(User user) {
         ResCreateUserDTO res = new ResCreateUserDTO();
         ResCreateUserDTO.CompanyUser com = new ResCreateUserDTO.CompanyUser();
