@@ -99,6 +99,9 @@ public class ResumeService {
         resResume.setCreatedBy(resume.getCreatedBy());
         resResume.setUpdatedAt(resume.getUpdatedAt());
         resResume.setUpdatedBy(resume.getUpdatedBy());
+        if (resume.getJob() != null) {
+            resResume.setCompanyName(resume.getJob().getCompany().getName());
+        }
         resResume.setUser(userResume);
         resResume.setJob(userJob);
 

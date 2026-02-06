@@ -61,4 +61,15 @@ public class CompanyController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @GetMapping("/companies/{id}")
+    @ApiMessage("get company by id")
+    public ResponseEntity<Company> getCompanyById(@PathVariable("id") long id) throws IdInvalidException {
+        Company fetchCompany = this.companyService.handleGetCompanyById(id);
+        if (fetchCompany == null) {
+            throw new IdInvalidException("Company với Id =  " + id + " không tồn tại");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(fetchCompany);
+    }
+
 }

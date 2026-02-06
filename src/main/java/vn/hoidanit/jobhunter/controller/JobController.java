@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import vn.hoidanit.jobhunter.domain.Job;
 import vn.hoidanit.jobhunter.domain.response.ResultPaginationDTO;
 import vn.hoidanit.jobhunter.domain.response.job.ResJobDTO;
+import vn.hoidanit.jobhunter.domain.response.job.ResUpdateJobDTO;
 import vn.hoidanit.jobhunter.service.JobService;
 import vn.hoidanit.jobhunter.util.annotation.ApiMessage;
 import vn.hoidanit.jobhunter.util.error.IdInvalidException;
@@ -37,20 +38,19 @@ public class JobController {
     @PostMapping("/jobs")
     @ApiMessage("create new job")
     public ResponseEntity<ResJobDTO> createNewJob(@Valid @RequestBody Job newJob) throws IdInvalidException {
-
         Job createdJob = this.jobService.handleCreateJob(newJob);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.jobService.convertToResDTO(createdJob));
     }
 
     @PutMapping("/jobs")
     @ApiMessage("update a job")
-    public ResponseEntity<ResJobDTO> updateJob(@Valid @RequestBody Job jobInput) throws IdInvalidException {
+    public ResponseEntity<ResUpdateJobDTO> updateJob(@Valid @RequestBody Job jobInput) throws IdInvalidException {
         Job currentJob = this.jobService.handleUpdateJob(jobInput);
         if (currentJob == null) {
             throw new IdInvalidException("Job: " + jobInput.getName() + " không tồn tại, nhập lại id");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.jobService.convertToResDTO(currentJob));
+        return ResponseEntity.status(HttpStatus.OK).body(this.jobService.convertToResUpdatedDTO(currentJob));
     }
 
     @GetMapping("/jobs")
@@ -62,22 +62,22 @@ public class JobController {
 
     @GetMapping("/jobs/{job-id}")
     @ApiMessage("get job by id")
-    public ResponseEntity<ResJobDTO> getJobById(@PathVariable("job-id") long id) throws IdInvalidException {
+    public ResponseEntity<Job> getJobById(@PathVariable("job-id") long id) throws IdInvalidException {
         Job fetchJob = this.jobService.handleGetJobById(id);
         if (fetchJob == null) {
             throw new IdInvalidException("Job với Id =  " + id + " không tồn tại");
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.jobService.convertToResDTO(fetchJob));
+        return ResponseEntity.status(HttpStatus.OK).body(fetchJob);
     }
 
     @DeleteMapping("/jobs/{job-id}")
     @ApiMessage("delete a job by id")
     public ResponseEntity<Void> deleteJob(@PathVariable("job-id") long id) throws IdInvalidException {
-        Job currentJob = this.jobService.handleGetJobById(id);
-        if (currentJob == null) {
-            throw new IdInvalidException("Job với Id =  " + id + " không tồn tại");
-        }
+        // Job currentJob = this.jobService.handleGetJobById(id);
+        // if (currentJob == null) {
+        // throw new IdInvalidException("Job với Id = " + id + " không tồn tại");
+        // }
         this.jobService.handleDeleteJob(id);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }

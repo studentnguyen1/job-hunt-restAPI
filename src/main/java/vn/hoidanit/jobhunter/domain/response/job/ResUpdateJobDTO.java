@@ -10,7 +10,7 @@ import vn.hoidanit.jobhunter.util.constant.LevelEnum;
 
 @Getter
 @Setter
-public class ResJobDTO {
+public class ResUpdateJobDTO {
     private long id;
     private String name;
     private String location;
@@ -25,9 +25,9 @@ public class ResJobDTO {
     private Instant endDate;
     private boolean active;
 
-    private Instant createdAt;
+    private Instant updatedAt;
 
-    private String createdBy;
+    private String updatedBy;
 
     private List<String> skill;
 }
