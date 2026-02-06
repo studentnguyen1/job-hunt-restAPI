@@ -85,6 +85,7 @@ public class AuthController {
     }
 
     @GetMapping("/auth/account")
+    @ApiMessage("fetch account")
     public ResponseEntity<RestLoginDTO.UserGetAccount> getAccount() {
         String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
 

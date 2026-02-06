@@ -124,6 +124,7 @@ public class JobService {
     }
 
     public void handleDeleteJob(long id) {
+
         this.jobRepository.deleteById(id);
     }
 

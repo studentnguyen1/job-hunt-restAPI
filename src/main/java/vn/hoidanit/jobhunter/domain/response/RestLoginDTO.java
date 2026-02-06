@@ -22,7 +22,7 @@ public class RestLoginDTO {
     public static class UserLogin {
         private long id;
         private String email;
-        private String username;
+        private String name;
 
     }
 
