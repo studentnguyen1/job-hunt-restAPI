@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.hoidanit.jobhunter.domain.Company;
+import vn.hoidanit.jobhunter.domain.Role;
 import vn.hoidanit.jobhunter.domain.User;
 import vn.hoidanit.jobhunter.domain.response.ResCreateUserDTO;
 import vn.hoidanit.jobhunter.domain.response.ResUserDTO;
@@ -20,13 +20,13 @@ import vn.hoidanit.jobhunter.repository.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final CompanyService companyService;
+    private final RoleService roleService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CompanyService companyService) {
+    public UserService(UserRepository userRepository, CompanyService companyService, RoleService roleService) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.companyService = companyService;
+        this.roleService = roleService;
     }
 
     public User handleCreateUser(User user) {
@@ -34,6 +34,12 @@ public class UserService {
         if (user.getCompany() != null) {
             Company companyOpt = this.companyService.handleGetCompanyById(user.getCompany().getId());
             user.setCompany(companyOpt);
+        }
+        // check role
+        if (user.getRole() != null) {
+            Role roleOpt = this.roleService.handleGetRoleById(user.getRole().getId());
+            user.setRole(roleOpt);
+
         }
         return this.userRepository.save(user);
     }
@@ -81,6 +87,12 @@ public class UserService {
                 Company company = this.companyService.handleGetCompanyById(reqUser.getCompany().getId());
                 currentUser.setCompany(company);
             }
+            // check role
+            if (reqUser.getRole() != null) {
+                Role roleOpt = this.roleService.handleGetRoleById(reqUser.getRole().getId());
+                currentUser.setRole(roleOpt);
+
+            }
 
             currentUser = this.userRepository.save(currentUser);
         }
@@ -114,11 +126,12 @@ public class UserService {
         res.setGender(user.getGender());
         res.setAddress(user.getAddress());
         res.setCreatedAt(user.getCreatedAt());
+        // check company
         if (user.getCompany() != null) {
             com.setId(user.getId());
             com.setName(user.getName());
+            res.setCompany(com);
         }
-        res.setCompany(com);
 
         return res;
     }
@@ -126,6 +139,7 @@ public class UserService {
     public ResUserDTO convertToResUserDTO(User user) {
         ResUserDTO res = new ResUserDTO();
         ResUserDTO.CompanyUser com = new ResUserDTO.CompanyUser();
+        ResUserDTO.RoleUser role = new ResUserDTO.RoleUser();
 
         res.setId(user.getId());
         res.setEmail(user.getEmail());
@@ -135,11 +149,20 @@ public class UserService {
         res.setAddress(user.getAddress());
         res.setCreatedAt(user.getCreatedAt());
         res.setUpdatedAt(user.getUpdatedAt());
+
+        // check company
         if (user.getCompany() != null) {
-            com.setId(user.getId());
-            com.setName(user.getName());
+            com.setId(user.getCompany().getId());
+            com.setName(user.getCompany().getName());
+            res.setCompany(com);
         }
-        res.setCompany(com);
+
+        // check role
+        if (user.getRole() != null) {
+            role.setId(user.getRole().getId());
+            role.setName(user.getRole().getName());
+            res.setRole(role);
+        }
 
         return res;
     }

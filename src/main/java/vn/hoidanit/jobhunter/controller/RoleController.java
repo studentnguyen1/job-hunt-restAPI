@@ -53,14 +53,14 @@ public class RoleController {
         // check id role
         Role currentRole = this.roleService.handleGetRoleById(roleInput.getId());
         if (currentRole == null) {
-            throw new IdInvalidException("Role " + roleInput.getId() + " đã tồn tại.");
+            throw new IdInvalidException("Role " + roleInput.getId() + " không tồn tại.");
         }
 
-        // check name
-        boolean isNameExist = this.roleService.existByName(roleInput.getName());
-        if (isNameExist) {
-            throw new IdInvalidException("Name đã tồn tại, vui lòng thêm name khác");
-        }
+        // // check name
+        // boolean isNameExist = this.roleService.existByName(roleInput.getName());
+        // if (isNameExist) {
+        // throw new IdInvalidException("Name đã tồn tại, vui lòng thêm name khác");
+        // }
 
         Role roleUpdated = this.roleService.handleUpdateRole(roleInput);
 
