@@ -59,7 +59,9 @@ public class PermissionController {
         // check api, module ...
         boolean isExist = this.permissionService.isPermisionExist(permissionInput);
         if (isExist) {
-            throw new IdInvalidException("Thông tin trong Permission đã tồn tại, nhập thông tin khác.");
+            // check name
+            if (this.permissionService.isSameName(permissionInput))
+                throw new IdInvalidException("Thông tin trong Permission đã tồn tại, nhập thông tin khác.");
         }
 
         return ResponseEntity.status(HttpStatus.OK)

@@ -73,6 +73,17 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).body(this.roleService.handleGetAllRoles(spec, pageable));
     }
 
+    @GetMapping("/roles/{role-id}")
+    @ApiMessage("get role by id")
+    public ResponseEntity<Role> getRoleById(@PathVariable("role-id") long id) throws IdInvalidException {
+        Role fetchRole = this.roleService.handleGetRoleById(id);
+        if (fetchRole == null) {
+            throw new IdInvalidException("Role với Id =  " + id + " không tồn tại");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(fetchRole);
+    }
+
     @DeleteMapping("/roles/{role-id}")
     @ApiMessage("delete a role by id")
     public ResponseEntity<Void> deleteRole(@PathVariable("role-id") long id) throws IdInvalidException {

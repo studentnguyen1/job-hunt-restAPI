@@ -31,12 +31,10 @@ import vn.hoidanit.jobhunter.util.error.IdInvalidException;
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final CompanyService companyService;
 
     public UserController(UserService userService, PasswordEncoder passwordEncoder, CompanyService companyService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-        this.companyService = companyService;
     }
 
     @GetMapping("/users/{user-id}")

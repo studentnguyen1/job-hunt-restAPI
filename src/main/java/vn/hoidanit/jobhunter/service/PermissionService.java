@@ -5,17 +5,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import vn.hoidanit.jobhunter.controller.ResumeController;
 import vn.hoidanit.jobhunter.domain.Permission;
 import vn.hoidanit.jobhunter.domain.response.ResultPaginationDTO;
 import vn.hoidanit.jobhunter.repository.PermissionRepository;
+import vn.hoidanit.jobhunter.repository.ResumeRepository;
 
 @Service
 public class PermissionService {
 
+    private final ResumeRepository resumeRepository;
+
+    private final ResumeController resumeController;
+
     private final PermissionRepository permissionRepository;
 
-    public PermissionService(PermissionRepository permissionRepository) {
+    public PermissionService(PermissionRepository permissionRepository, ResumeController resumeController,
+            ResumeRepository resumeRepository) {
         this.permissionRepository = permissionRepository;
+        this.resumeController = resumeController;
+        this.resumeRepository = resumeRepository;
     }
 
     public Permission handleCreatPermission(Permission newPermission) {
@@ -26,6 +35,16 @@ public class PermissionService {
         return permissionRepository.existsByModuleAndApiPathAndMethod(newPermission.getModule(),
                 newPermission.getApiPath(), newPermission.getMethod());
 
+    }
+
+    public boolean isSameName(Permission p) {
+        Permission currentPermission = this.handleGetPermissionById(p.getId());
+        if (currentPermission != null) {
+            if (p.getName().equals(currentPermission.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Permission handleGetPermissionById(long id) {
