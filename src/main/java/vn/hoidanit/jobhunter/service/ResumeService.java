@@ -39,7 +39,7 @@ public class ResumeService {
 
     private final ResumeRepository resumeRepository;
 
-    public ResumeService(ResumeRepository resumeRepository) {
+    public ResumeService(ResumeRepository resumeRepository, UserService userService) {
         this.resumeRepository = resumeRepository;
     }
 
