@@ -60,9 +60,9 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(this.jobService.handleGetAllJobs(spec, pageable));
     }
 
-    @GetMapping("/jobs/{job-id}")
+    @GetMapping("/jobs/{id}")
     @ApiMessage("get job by id")
-    public ResponseEntity<Job> getJobById(@PathVariable("job-id") long id) throws IdInvalidException {
+    public ResponseEntity<Job> getJobById(@PathVariable("id") long id) throws IdInvalidException {
         Job fetchJob = this.jobService.handleGetJobById(id);
         if (fetchJob == null) {
             throw new IdInvalidException("Job với Id =  " + id + " không tồn tại");
@@ -71,9 +71,9 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(fetchJob);
     }
 
-    @DeleteMapping("/jobs/{job-id}")
+    @DeleteMapping("/jobs/{id}")
     @ApiMessage("delete a job by id")
-    public ResponseEntity<Void> deleteJob(@PathVariable("job-id") long id) throws IdInvalidException {
+    public ResponseEntity<Void> deleteJob(@PathVariable("id") long id) throws IdInvalidException {
         Job currentJob = this.jobService.handleGetJobById(id);
         if (currentJob == null) {
             throw new IdInvalidException("Job với Id = " + id + " không tồn tại");

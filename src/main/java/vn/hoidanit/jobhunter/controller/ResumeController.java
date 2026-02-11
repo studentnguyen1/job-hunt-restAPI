@@ -92,9 +92,9 @@ public class ResumeController {
                 .body(this.resumeService.convertToUpdateResumeDTO(currentResume));
     }
 
-    @DeleteMapping("/resumes/{resume-id}")
+    @DeleteMapping("/resumes/{id}")
     @ApiMessage("delete a resume by id")
-    public ResponseEntity<Void> deleteResume(@PathVariable("resume-id") long id) throws IdInvalidException {
+    public ResponseEntity<Void> deleteResume(@PathVariable("id") long id) throws IdInvalidException {
         Resume currentResume = this.resumeService.handleGetResumeById(id);
         if (currentResume == null) {
             throw new IdInvalidException("Resume với Id =  " + id + " không tồn tại");
@@ -103,9 +103,9 @@ public class ResumeController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @GetMapping("/resumes/{resume-id}")
+    @GetMapping("/resumes/{id}")
     @ApiMessage("get resume by id")
-    public ResponseEntity<ResResumeDTO> getResumeById(@PathVariable("resume-id") long id) throws IdInvalidException {
+    public ResponseEntity<ResResumeDTO> getResumeById(@PathVariable("id") long id) throws IdInvalidException {
         Resume fetchResume = this.resumeService.handleGetResumeById(id);
         if (fetchResume == null) {
             throw new IdInvalidException("Job với Id =  " + id + " không tồn tại");

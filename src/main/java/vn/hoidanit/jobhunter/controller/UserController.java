@@ -37,10 +37,10 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/users/{user-id}")
+    @GetMapping("/users/{id}")
     @ApiMessage("get user by id")
 
-    public ResponseEntity<ResUserDTO> getUserById(@PathVariable("user-id") long id) throws IdInvalidException {
+    public ResponseEntity<ResUserDTO> getUserById(@PathVariable("id") long id) throws IdInvalidException {
         User fetchUser = this.userService.handleGetUserById(id);
         if (fetchUser == null) {
             throw new IdInvalidException("User với Id =  " + id + " không tồn tại");
@@ -83,9 +83,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userCurrent);
     }
 
-    @DeleteMapping("/users/{user-id}")
+    @DeleteMapping("/users/{id}")
     @ApiMessage("delete an user by id")
-    public ResponseEntity<Void> deleteUser(@PathVariable("user-id") long id) throws IdInvalidException {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) throws IdInvalidException {
         User currentUser = this.userService.handleGetUserById(id);
         if (currentUser == null) {
             throw new IdInvalidException("User với Id =  " + id + " không tồn tại");

@@ -77,9 +77,9 @@ public class PermissionController {
                 .body(this.permissionService.handleGetAllPermissions(spec, pageable));
     }
 
-    @DeleteMapping("/permissions/{permission-id}")
+    @DeleteMapping("/permissions/{id}")
     @ApiMessage("delete a permission by id")
-    public ResponseEntity<Void> deletePermission(@PathVariable("permission-id") long id) throws IdInvalidException {
+    public ResponseEntity<Void> deletePermission(@PathVariable("id") long id) throws IdInvalidException {
         Permission currentPermission = this.permissionService.handleGetPermissionById(id);
         if (currentPermission == null) {
             throw new IdInvalidException("Permission với Id = " + id + " không tồn tại");
