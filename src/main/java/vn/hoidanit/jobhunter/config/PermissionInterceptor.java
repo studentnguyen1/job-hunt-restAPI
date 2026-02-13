@@ -14,7 +14,7 @@ import vn.hoidanit.jobhunter.domain.Role;
 import vn.hoidanit.jobhunter.domain.User;
 import vn.hoidanit.jobhunter.service.UserService;
 import vn.hoidanit.jobhunter.util.SecurityUtil;
-import vn.hoidanit.jobhunter.util.error.IdInvalidException;
+import vn.hoidanit.jobhunter.util.error.PermissionException;
 
 public class PermissionInterceptor implements HandlerInterceptor {
 
@@ -48,12 +48,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
                     boolean isAllow = permissions.stream()
                             .anyMatch(item -> item.getApiPath().equals(path) && item.getMethod().equals(httpMethod));
                     if (isAllow == false) {
-                        throw new IdInvalidException("Bạn không có quyền truy cập endpoint này.");
+                        throw new PermissionException("Bạn không có quyền truy cập endpoint này.");
                     }
                     System.out.println("API Alow: " + isAllow);
 
                 } else {
-                    throw new IdInvalidException("Bạn không có quyền truy cập endpoint này.");
+                    throw new PermissionException("Bạn không có quyền truy cập endpoint này.");
                 }
             }
 
