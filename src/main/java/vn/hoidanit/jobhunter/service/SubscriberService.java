@@ -9,6 +9,8 @@ import vn.hoidanit.jobhunter.domain.Subscriber;
 import vn.hoidanit.jobhunter.repository.SkillRepository;
 import vn.hoidanit.jobhunter.repository.SubscriberRepository;
 
+
+
 @Service
 public class SubscriberService {
 
