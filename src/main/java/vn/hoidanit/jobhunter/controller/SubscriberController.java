@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import vn.hoidanit.jobhunter.domain.Subscriber;
 import vn.hoidanit.jobhunter.service.SubscriberService;
+import vn.hoidanit.jobhunter.util.SecurityUtil;
 import vn.hoidanit.jobhunter.util.annotation.ApiMessage;
 import vn.hoidanit.jobhunter.util.error.IdInvalidException;
 
@@ -45,6 +46,15 @@ public class SubscriberController {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.subscriberService.handleUpdateSubscriber(newSub));
+    }
+
+    @PostMapping("/subscribers/skills")
+    @ApiMessage("Get subscriber skills")
+    public ResponseEntity<Subscriber> getSubscriberSkills() throws IdInvalidException {
+        String email = SecurityUtil.getCurrentUserLogin().isPresent() == true ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
+
+        return ResponseEntity.ok().body(this.subscriberService.findByEmail(email));
     }
 
 }
