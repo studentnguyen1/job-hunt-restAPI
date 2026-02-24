@@ -40,8 +40,8 @@ public class GlobalException {
     public ResponseEntity<RestResponse<Object>> handleBlogAlreadyExistsException(Exception ex) {
         RestResponse<Object> res = new RestResponse<>();
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setError("Exception occur..");
-        res.setMessage(ex.getMessage());
+        res.setError(ex.getMessage());
+        res.setMessage("Exception occur..");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
