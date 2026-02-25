@@ -1,11 +1,11 @@
 
----
+
 
 # 💼 Recruitment Management System – RESTful API
 
 A role-based recruitment management system built with Spring Boot following RESTful architecture principles.
 
----
+
 
 ## 🚀 Features
 
@@ -19,7 +19,6 @@ A role-based recruitment management system built with Spring Boot following REST
 - Pagination, sorting, validation
 - Global exception handling
 
----
 
 ## 🛠 Tech Stack
 
@@ -31,7 +30,7 @@ A role-based recruitment management system built with Spring Boot following REST
 - MySQL
 - Gradle
 
----
+
 
 ## 🏗 Architecture
 
@@ -40,7 +39,7 @@ A role-based recruitment management system built with Spring Boot following REST
 - DTO pattern for request/response handling
 - Role-based authorization
 
----
+
 
 ## 🔐 Authentication Flow
 
@@ -50,5 +49,5 @@ A role-based recruitment management system built with Spring Boot following REST
 4. Client sends token in Authorization header  
 5. Security filter validates token for each request  
 
----
+
 
