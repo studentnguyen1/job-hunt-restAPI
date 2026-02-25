@@ -1,11 +1,6 @@
 
 ---
 
-# =============================  
-# 2️⃣ RECRUITMENT REST API – README  
-# =============================  
-
-```md
 # 💼 Recruitment Management System – RESTful API
 
 A role-based recruitment management system built with Spring Boot following RESTful architecture principles.
